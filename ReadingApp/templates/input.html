@@ -5,5 +5,49 @@
 {% endblock %}
 
 {% block content %}
-    This is our Input Page!
+
+<body class="text-center">
+
+{% if  current_user.is_authenticated %}
+
+    <div class="container">
+        <form method="POST" class="form-books" style="color:white">
+            <h1 class="h3 mb-3 font-weight-normal">
+                Input Reading Info
+            </h1>
+            <br>
+            {{ form.title.label() }}
+            {{ form.title(class="form-control", placeholder="Book Title") }}
+
+            {{ form.subject.label() }}
+            {{ form.subject(class="form-control", placeholder="Subject") }}
+
+            {{ form.hours.label() }}
+            {{ form.hours(class="form-control", placeholder="Hours Spent Reading") }}
+
+
+            <br>
+
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+
+        </form>
+    </div>
+
+
+{% else %}
+
+            <div class="checkbox mb-3">
+               <h6>Login to add books to bookshelf?</h6>
+               <a class="btn btn-sm btn-secondary" href="{{ url_for('login_page') }}">Login</a>
+            </div>
+
+            <div class="checkbox mb-3">
+               <h6>Do not have an account?</h6>
+               <a class="btn btn-sm btn-secondary" href="{{ url_for('register_page') }}">Register</a>
+            </div>
+
+
+{% endif %}
+</body>
+
 {% endblock %}

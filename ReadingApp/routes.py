@@ -1,7 +1,7 @@
 from ReadingApp import app
-from flask import render_template, redirect, url_for, flash
-from ReadingApp.models import User
-from ReadingApp.forms import RegisterForm, LoginForm
+from flask import render_template, redirect, url_for, flash, request
+from ReadingApp.models import User, Books
+from ReadingApp.forms import RegisterForm, LoginForm, BookForm
 from ReadingApp import db
 from flask_login import login_user, logout_user, current_user, login_required
 
@@ -9,9 +9,23 @@ from flask_login import login_user, logout_user, current_user, login_required
 def home_page():
     return render_template('index.html')
 
-@app.route("/input")
+@app.route("/input", methods=['GET','POST'])
 def input_page():
-    return render_template('input.html')
+    form = BookForm()
+    if request.method == "POST":
+        add_to_bookshelf = Books(title=form.title.data,
+                                  subject=form.subject.data,
+                                  hours=form.hours.data,
+                                 input_user=current_user.id)
+        db.session.add(add_to_bookshelf)
+        db.session.commit()
+        flash(f"Book added successfully! {add_to_bookshelf.title}, is on your bookshelf", category='success')
+
+
+
+        return redirect(url_for('input_page'))
+
+    return render_template('input.html',form=form)
 
 @app.route("/dashboard")
 def dashboard_page():
@@ -31,6 +45,8 @@ def register_page():
                               password=form.password1.data)
         db.session.add(user_to_create)
         db.session.commit()
+        login_user(user_to_create)
+        flash(f"Account created successfully! You are now logged in as {user_to_create.username}", category='success')
         return redirect(url_for('home_page'))
 
     if form.errors != {}: #If there are not errors from the validator

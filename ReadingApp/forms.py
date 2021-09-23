@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import Length, EqualTo, Email, DataRequired,ValidationError
+from wtforms import StringField, PasswordField, SubmitField, FloatField, IntegerField
+from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
 from ReadingApp.models import User
 
 class RegisterForm(FlaskForm):
@@ -25,3 +25,9 @@ class LoginForm(FlaskForm):
     username = StringField(label='User Name:', validators=[DataRequired()])
     password = PasswordField(label='Password:', validators=[DataRequired()])
     submit = SubmitField(label='Sign In')
+
+class BookForm(FlaskForm):
+    title = StringField(label='Book Title:', validators=[DataRequired()])
+    subject = StringField(label='Subject:', validators=[DataRequired()])
+    hours = FloatField(label='Hours Spent Reading:', validators=[DataRequired()])
+    submit = SubmitField(label='Add To Bookshelf')
