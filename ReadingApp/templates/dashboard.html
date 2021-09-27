@@ -15,6 +15,10 @@
   <canvas id="myCanvas" width=".5" height=".5"></canvas>
 </div>
 
+<div>
+  <canvas id="myCanvas2" width=".5" height=".5"></canvas>
+</div>
+
 
 
 <script>
@@ -23,16 +27,42 @@ d3.csv("/static/books.csv")
 
 function makeChart(data) {
     var canvas = document.getElementById("myCanvas");
+    var canvas2 = document.getElementById("myCanvas2");
     var titles = data.map(function(d) {return d.title;});
     var subjects = data.map(function(d) {return d.subject;});
     var hours = data.map(function(d) {return d.hours;});
+    var date = data.map(function(d) {return d.date;});
+
+
+
     console.log(hours);
+    console.log(date);
+
+
+        function getUnique(array){
+        var uniqueArray = [];
+
+        // Loop through array values
+        for(i=0; i < array.length; i++){
+            if(uniqueArray.indexOf(array[i]) === -1) {
+                uniqueArray.push(array[i]);
+            }
+        }
+        return uniqueArray;
+    }
+
+  var uniqueTitles = getUnique(titles);
+  console.log(uniqueTitles);
+
+  var title_hours = {};
+  uniqueTitles.forEach((uniqueTitles, i) => title_hours[uniqueTitles] = hours[i]);
+  console.log(title_hours);
 
 
     new Chart(canvas, {
     type: 'bar',
     data: {
-      labels: titles,
+      labels: uniqueTitles,
       datasets: [
         {
           data: hours
@@ -40,30 +70,25 @@ function makeChart(data) {
       ]
     }
   });
+    // Turns hours strings into ints
+    var hours_num = hours.map(Number);
 
-    new Chart(document.getElementById("myCanvas"), {
+    // Cumulates hours to display on line chart
+    var cumulative_hours = [];
+    hours_num.reduce(function(a,b,i) { return cumulative_hours[i] = a+b; }, 0);
+    console.log(cumulative_hours);
+
+
+    new Chart(canvas2, {
   type: 'line',
   data: {
-    labels: mon_unique,
+    labels: date,
     datasets: [{
-        data: ab_val,
-        label: "Alberta",
-        borderColor: "#3e95cd",
-        fill: false
+        data: cumulative_hours,
       }
     ]
-  },
-  options: {
-    title: {
-      display: true,
-      text: 'Positive Cases of COVID in provinces of Canada'
-    },
-    hover: {
-     mode: 'index',
-     intersect: true
-    },
   }
-});
+  });
 
 }
 

@@ -25,7 +25,8 @@ def input_page():
         title_df = pd.DataFrame(Books.query.with_entities(Books.title), columns=['title'])
         subject_df = pd.DataFrame(Books.query.with_entities(Books.subject), columns=['subject'])
         hours_df = pd.DataFrame(Books.query.with_entities(Books.hours), columns=['hours'])
-        books_df = pd.concat([title_df, subject_df, hours_df], axis=1)
+        date_df = pd.DataFrame(Books.query.with_entities(Books.date), columns=['date'])
+        books_df = pd.concat([title_df, subject_df, hours_df, date_df], axis=1)
         books_df.to_csv('/Users/Evan/PycharmProjects/ReadingApp/ReadingApp/static/books.csv')
         flash(f"Book added successfully! {add_to_bookshelf.title}, is on your bookshelf", category='success')
 
