@@ -1,5 +1,6 @@
 from ReadingApp import db, bcrypt, login_manager
 from flask_login import UserMixin
+import pandas as pd
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -33,10 +34,12 @@ class Books(db.Model):
     subject = db.Column(db.String(100), unique=False, nullable=False)
     hours = db.Column(db.Integer)
     input_user = db.Column(db.Integer(), db.ForeignKey('user.id'))
+    date = db.Column(db.String(), unique=False, nullable=False)
 
     def __repr__(self):
-        return f'Book {self.title}'
+        return f'{self.title}, {self.subject}, {self.hours}, {self.input_user}'
 
     def add_book(self, user):
         self.input_user = user.id
         db.session.commit()
+

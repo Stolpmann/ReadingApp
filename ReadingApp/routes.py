@@ -4,6 +4,8 @@ from ReadingApp.models import User, Books
 from ReadingApp.forms import RegisterForm, LoginForm, BookForm
 from ReadingApp import db
 from flask_login import login_user, logout_user, current_user, login_required
+import pandas as pd
+from datetime import date
 
 @app.route("/")
 def home_page():
@@ -16,9 +18,15 @@ def input_page():
         add_to_bookshelf = Books(title=form.title.data,
                                   subject=form.subject.data,
                                   hours=form.hours.data,
-                                 input_user=current_user.id)
+                                 input_user=current_user.id,
+                                 date=date.today())
         db.session.add(add_to_bookshelf)
         db.session.commit()
+        title_df = pd.DataFrame(Books.query.with_entities(Books.title), columns=['title'])
+        subject_df = pd.DataFrame(Books.query.with_entities(Books.subject), columns=['subject'])
+        hours_df = pd.DataFrame(Books.query.with_entities(Books.hours), columns=['hours'])
+        books_df = pd.concat([title_df, subject_df, hours_df], axis=1)
+        books_df.to_csv('/Users/Evan/PycharmProjects/ReadingApp/ReadingApp/static/books.csv')
         flash(f"Book added successfully! {add_to_bookshelf.title}, is on your bookshelf", category='success')
 
 
