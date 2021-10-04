@@ -1,6 +1,14 @@
-,title,subject,hours,date
-0,The Logic of Scientific Discovery,Philosophy,1,2021-09-26
-1,Confessions of An Economic Hitman,Biography,1,2021-09-27
-2,Discrete Mathematics and its Applications,Mathematics,1,2021-09-27
-3,Confessions of An Economic Hitman,Biography,1,2021-09-27
-4,Discrete Mathematics and its Applications,Mathematics,1,2021-09-27
+title,subject,hours,date,input_user
+The Logic of Scientific Discovery,Philosophy,1.0,2021-09-26,1
+Confessions of An Economic Hitman,Biography,1.0,2021-09-27,1
+Discrete Mathematics and its Applications,Mathematics,1.0,2021-09-27,1
+Confessions of An Economic Hitman,Biography,1.0,2021-09-27,1
+Discrete Mathematics and its Applications,Mathematics,1.0,2021-09-27,1
+Confessions of An Economic Hitman,Biography,1.5,2021-09-28,1
+Discrete Mathematics and its Applications,Mathematics,1.0,2021-09-28,1
+Discrete Mathematics and its Applications,Mathematics,1.0,2021-09-28,1
+Discrete Mathematics and its Applications,Mathematics,1.0,2021-09-28,1
+Confessions of An Economic Hitman,Biography,1.0,2021-10-03,1
+Discrete Mathematics and its Applications,Mathematics,0.5,2021-10-03,1
+Confessions of An Economic Hitman,Biography,1.0,2021-10-03,2
+Module 8 - Nikola,Group 9 ,1.5,2021-10-03,2

@@ -1,0 +1,16 @@
+{% extends 'base.html'%}
+
+{% block title %}
+    Dashboard Page
+{% endblock %}
+
+{% block content %}
+
+<div id="chart" class="chart"></div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript">
+  var graphs = {{graphJSON | safe}};
+  Plotly.plot('chart',graphs,{});
+</script>
+{% endblock %}

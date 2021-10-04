@@ -6,10 +6,27 @@ from ReadingApp import db
 from flask_login import login_user, logout_user, current_user, login_required
 import pandas as pd
 from datetime import date
+import json
+import plotly
+import plotly.express as px
 
 @app.route("/")
 def home_page():
+
     return render_template('index.html')
+
+@app.route("/bookshelf")
+def bookshelf_page():
+    df = pd.read_csv('/Users/Evan/PycharmProjects/ReadingApp/ReadingApp/static/books.csv')
+    df = df.loc[df['input_user'] == current_user.id]
+    df = df.drop(['input_user', 'hours','date'], axis=1)
+    df = df.drop_duplicates(subset='title')
+
+
+
+
+    return render_template('bookshelf.html',column_names=df.columns.values, row_data=list(df.values.tolist()),
+                           link_column="Patient ID", zip=zip)
 
 @app.route("/input", methods=['GET','POST'])
 def input_page():
@@ -26,8 +43,9 @@ def input_page():
         subject_df = pd.DataFrame(Books.query.with_entities(Books.subject), columns=['subject'])
         hours_df = pd.DataFrame(Books.query.with_entities(Books.hours), columns=['hours'])
         date_df = pd.DataFrame(Books.query.with_entities(Books.date), columns=['date'])
-        books_df = pd.concat([title_df, subject_df, hours_df, date_df], axis=1)
-        books_df.to_csv('/Users/Evan/PycharmProjects/ReadingApp/ReadingApp/static/books.csv')
+        user_df = pd.DataFrame(Books.query.with_entities(Books.input_user), columns=['input_user'])
+        books_df = pd.concat([title_df, subject_df, hours_df, date_df, user_df], axis=1)
+        books_df.to_csv('/Users/Evan/PycharmProjects/ReadingApp/ReadingApp/static/books.csv', index=False)
         flash(f"Book added successfully! {add_to_bookshelf.title}, is on your bookshelf", category='success')
 
 
@@ -36,9 +54,35 @@ def input_page():
 
     return render_template('input.html',form=form)
 
-@app.route("/dashboard")
-def dashboard_page():
-    return render_template('dashboard.html')
+@app.route("/titles",methods=['GET'])
+def titles_page():
+    if request.method == "GET":
+        df = pd.read_csv('/Users/Evan/PycharmProjects/ReadingApp/ReadingApp/static/books.csv')
+        bookshelf_df = df.loc[df['input_user'] == current_user.id]
+        fig = px.bar(bookshelf_df, x='title', y='hours', color ='subject', barmode ='group', title='Titles Read')
+        graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return render_template('titles.html', graphJSON=graphJSON)
+
+@app.route("/hours",methods=['GET'])
+def hours_page():
+    if request.method == "GET":
+        df = pd.read_csv('/Users/Evan/PycharmProjects/ReadingApp/ReadingApp/static/books.csv')
+        bookshelf_df = df.loc[df['input_user'] == current_user.id]
+        fig = px.line(bookshelf_df, x="date", y="hours", title='Hours Read')
+        graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return render_template('hours.html', graphJSON=graphJSON)
+
+@app.route("/subjects",methods=['GET'])
+def subjects_page():
+    if request.method == "GET":
+        df = pd.read_csv('/Users/Evan/PycharmProjects/ReadingApp/ReadingApp/static/books.csv')
+        bookshelf_df = df.loc[df['input_user'] == current_user.id]
+        fig = px.pie(bookshelf_df, values='hours', names='subject', title='Subjects Read')
+        graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return render_template('subjects.html', graphJSON=graphJSON)
 
 @app.route("/profile")
 def profile_page():

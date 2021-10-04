@@ -1,0 +1,56 @@
+{% extends 'base.html'%}
+
+{% block title %}
+    Dashboard Page
+{% endblock %}
+
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.0.3/d3.min.js"></script>
+
+<div class="container">
+  <canvas id="myCanvas2" width="0.15" height="0.15"></canvas>
+</div>
+
+
+
+<script>
+d3.csv("/static/books.csv")
+.then(makeChart);
+
+function makeChart(data) {
+    var canvas = document.getElementById("myCanvas");
+    var canvas2 = document.getElementById("myCanvas2");
+    var titles = data.map(function(d) {return d.title;});
+    var subjects = data.map(function(d) {return d.subject;});
+    var hours = data.map(function(d) {return d.hours;});
+    var date = data.map(function(d) {return d.date;});
+
+    // Turns hours strings into ints
+    var hours_num = hours.map(Number);
+
+    // Cumulates hours to display on line chart
+    var cumulative_hours = [];
+    hours_num.reduce(function(a,b,i) { return cumulative_hours[i] = a+b; }, 0);
+    console.log(cumulative_hours);
+
+
+    new Chart(canvas2, {
+  type: 'line',
+  data: {
+    labels: date,
+    datasets: [{
+        label: 'Cumulative Hours Read',
+        data: cumulative_hours,
+        borderColor: 'rgb(75, 192, 192)'
+      }
+    ]
+  }
+  });
+
+}
+
+
+</script>
+{% endblock %}
