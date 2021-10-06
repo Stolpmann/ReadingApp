@@ -1,28 +1,57 @@
 {% extends 'base.html'%}
 
 {% block title %}
-    Home Page
+    Bookshelf Page
 {% endblock %}
 
 {% block content %}
 
+<body class="text-center">
 
-<table>
-    <tr>
-        {% for col in column_names %}
-        <th>{{col}}</th>
-        {% endfor %}
-    </tr>
-    {% for row in row_data %}
-    <tr>
-        {% for col, row_ in zip(column_names, row) %}
-        {% if col == link_column %}
-        {% else %}
-        <td>{{row_}}</td>
-        {% endif %}
-        {% endfor %}
-    </tr>
-    {% endfor %}
+{% if  current_user.is_authenticated %}
 
-</table>
+<div class="container" style="padding-top: 5em">
+
+    <h1>Hello {{ current_user.username }}, this is your bookshelf.</h1>
+
+    <br>
+
+    <table>
+        <tr>
+            {% for col in column_names %}
+            <th>{{col}}</th>
+            {% endfor %}
+        </tr>
+        {% for row in row_data %}
+        <tr>
+            {% for col, row_ in zip(column_names, row) %}
+            {% if col == link_column %}
+            {% else %}
+            <td>{{row_}}</td>
+            {% endif %}
+            {% endfor %}
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+{% else %}
+
+    <div class="checkbox mb-3">
+       <h6>Login to add books to bookshelf?</h6>
+       <a class="btn btn-sm btn-secondary" href="{{ url_for('login_page') }}">Login</a>
+    </div>
+
+    <div class="checkbox mb-3">
+       <h6>Do not have an account?</h6>
+       <a class="btn btn-sm btn-secondary" href="{{ url_for('register_page') }}">Register</a>
+    </div>
+
+
+{% endif %}
+
+</body>
+
+
 {% endblock %}

@@ -6,4 +6,44 @@
 
 {% block content %}
 
+
+<body class="text-center">
+
+{% if  current_user.is_authenticated %}
+
+    <div class="container" style="padding-top: 5em">
+
+    <h1>Welcome to the Best Reading App Ever!</h1>
+    <br>
+    <h1>Get reading and add to your bookshelf!</h1>
+
+    <img src="{{url_for('static', filename='open-book_1f4d6.png')}}" alt=""/>
+
+
+
+
+    </div>
+
+{% else %}
+
+    <div class="container" style="padding-top: 5em">
+
+    <h1>Welcome to the Best Reading App Ever!</h1>
+    <br>
+    <h1>Login to start adding to your bookshelf!</h1>
+
+    <img src="{{url_for('static', filename='open-book_1f4d6.png')}}" alt=""/>
+
+
+
+    </div>
+
+
+{% endif %}
+
+</body>
+
+
+
+
 {% endblock %}

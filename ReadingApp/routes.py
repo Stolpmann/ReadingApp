@@ -15,17 +15,23 @@ def home_page():
 
     return render_template('index.html')
 
-@app.route("/bookshelf")
+@app.route("/bookshelf", methods=['GET'])
 def bookshelf_page():
-    df = pd.read_csv('/Users/Evan/PycharmProjects/ReadingApp/ReadingApp/static/books.csv')
-    df = df.loc[df['input_user'] == current_user.id]
-    df = df.drop(['input_user', 'hours','date'], axis=1)
-    df = df.drop_duplicates(subset='title')
+    df1 = pd.read_csv('/Users/Evan/PycharmProjects/ReadingApp/ReadingApp/static/books.csv')
+    df1 = df1.loc[df1['input_user'] == current_user.id]
+    # df = df.drop(['input_user', 'hours','date'], axis=1)
+    # df = df.drop_duplicates(subset='title')
+    df2 = df1.groupby(['title'], as_index=False).min()
+    df2 = df2.drop(['input_user', 'hours', 'input_user'], axis=1)
+    df2 = df2.rename(columns={'date': 'Start date', 'title': 'Title', 'subject': 'Subject'})
+    df3 = df1.groupby(['title'], as_index=False).max()
+    df3 = df3.drop(['input_user', 'hours', 'input_user', 'subject','title'], axis=1)
+    df3 = df3.rename(columns={'date': 'Finished date'})
+    df4 = pd.concat([df2,df3], axis=1)
 
 
 
-
-    return render_template('bookshelf.html',column_names=df.columns.values, row_data=list(df.values.tolist()),
+    return render_template('bookshelf.html',column_names=df4.columns.values, row_data=list(df4.values.tolist()),
                            link_column="Patient ID", zip=zip)
 
 @app.route("/input", methods=['GET','POST'])
@@ -69,7 +75,11 @@ def hours_page():
     if request.method == "GET":
         df = pd.read_csv('/Users/Evan/PycharmProjects/ReadingApp/ReadingApp/static/books.csv')
         bookshelf_df = df.loc[df['input_user'] == current_user.id]
-        fig = px.line(bookshelf_df, x="date", y="hours", title='Hours Read')
+        df = bookshelf_df.drop(['title','input_user', 'hours', 'subject'], axis=1)
+        df1 = bookshelf_df.drop(['title','input_user', 'date', 'subject'], axis=1)
+        df1 = df1.cumsum()
+        df2 = pd.concat([df1, df], axis=1)
+        fig = px.line(df2, x="date", y="hours", title='Hours Read')
         graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
     return render_template('hours.html', graphJSON=graphJSON)

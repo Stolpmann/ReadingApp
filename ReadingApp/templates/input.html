@@ -10,6 +10,9 @@
 
 {% if  current_user.is_authenticated %}
 
+    <h1 style="padding-top: 1em;">Hello {{ current_user.username }}, what have you been reading?</h1>
+
+
     <div class="container">
         <form method="POST" class="form-books" style="color:white">
             <h1 class="h3 mb-3 font-weight-normal">
