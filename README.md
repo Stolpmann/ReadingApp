@@ -29,19 +29,18 @@ The main purpose is to introduce how to implement the essential elements in web 
   <img src="https://media.giphy.com/media/5S1BD7lMEpOLSixYhp/giphy.gif?raw=true" alt="Sublime's custom image"/>
 </p>
 
-![Alt Text](https://media.giphy.com/media/5S1BD7lMEpOLSixYhp/giphy.gif)
-
-- Users must authenticate to view bookshelf
-
-
 - Users can input new Books to add to their library
 
+<p align="center">
+  <img src="https://media.giphy.com/media/Ck5CHVtoRbqXlOoN1O/giphy.gif?raw=true" alt="Sublime's custom image"/>
+</p>
 
-- Users can view all the books on their bookshelf
+- Users can view all the books on their bookshelf analyze data regarding the books on their bookshelf
 
 
-- Users can analyze data visual regarding the books on their bookshelf
-
+<p align="center">
+  <img src="https://media.giphy.com/media/X6sVhrq77WmqD1SAmy/giphy.gif?raw=true" alt="Sublime's custom image"/>
+</p>
 
 ## What's Included?
 
