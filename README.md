@@ -32,14 +32,13 @@ The main purpose is to introduce how to implement the essential elements in web 
 - Users can input new Books to add to their library
 
 <p align="center">
-  <img src="https://media.giphy.com/media/Ck5CHVtoRbqXlOoN1O/giphy.gif?raw=true" alt="Sublime's custom image"/>
+  <img src="https://media.giphy.com/media/X6sVhrq77WmqD1SAmy/giphy.gif?raw=true" alt="Sublime's custom image"/>
 </p>
 
 - Users can view all the books on their bookshelf analyze data regarding the books on their bookshelf
 
-
 <p align="center">
-  <img src="https://media.giphy.com/media/X6sVhrq77WmqD1SAmy/giphy.gif?raw=true" alt="Sublime's custom image"/>
+  <img src="https://media.giphy.com/media/Ck5CHVtoRbqXlOoN1O/giphy.gif?raw=true" alt="Sublime's custom image"/>
 </p>
 
 ## What's Included?
