@@ -24,6 +24,11 @@ The main purpose is to introduce how to implement the essential elements in web 
 
 ## Details about This Reading App
 - Users must create an account to interact with the features of the application
+
+<p align="center">
+  <img src="https://media.giphy.com/media/5S1BD7lMEpOLSixYhp/giphy.gif?raw=true" alt="Sublime's custom image"/>
+</p>
+
 ![Alt Text](https://media.giphy.com/media/5S1BD7lMEpOLSixYhp/giphy.gif)
 
 - Users must authenticate to view bookshelf
